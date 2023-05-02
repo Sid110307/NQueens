@@ -2,8 +2,8 @@ CC=clang++
 EXECUTABLE_DIR=bin
 CPPFLAGS=-std=c++11 -Wall -Wextra
 
-.PHONY: all clean
-all: eightQueens
+.PHONY: all
+all: clean eightQueens
 
 eightQueens: main.cpp
 	mkdir -p $(EXECUTABLE_DIR)
@@ -12,3 +12,4 @@ eightQueens: main.cpp
 
 clean:
 	rm -rf $(EXECUTABLE_DIR)
+
