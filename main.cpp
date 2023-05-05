@@ -4,29 +4,41 @@
 
 bool isSafe(int** board, int row, int col, int size)
 {
-    for (int i = 0; i < col; i++) if (board[row][i]) return false;
-    for (int i = row, j = col; i >= 0 && j >= 0; i--, j--) if (board[i][j]) return false;
-    for (int i = row, j = col; j >= 0 && i < size; i++, j--) if (board[i][j]) return false;
+    for (int i = 0; i < col; ++i) if (board[row][i]) return false;
+    for (int i = row, j = col; i >= 0 && j >= 0; --i, --j) if (board[i][j]) return false;
+    for (int i = row, j = col; j >= 0 && i < size; ++i, --j) if (board[i][j]) return false;
 
     return true;
 }
 
+// TODO: better printing for 2+ digit numbers
 void printBoard(int** board, int size)
 {
-    std::cout << "  ";
-    for (int i = 0; i < size; i++) std::cout << i << " ";
+    int numDigits = 1;
+    int temp = size;
 
-    std::cout << std::endl;
-    for (int i = 0; i < size; i++)
+    while (temp > 9)
     {
-        std::cout << i << " ";
-        for (int j = 0; j < size; j++)
-        {
-            if (board[i][j]) std::cout << "Q ";
-            else std::cout << ". ";
-        }
+        ++numDigits;
+        temp /= 10;
+    }
 
-        std::cout << std::endl;
+    std::cout << "     ";
+    for (int i = 0; i < size; ++i) std::cout << i << std::string(numDigits * 3, ' ');
+    std::cout << std::endl;
+
+    std::cout << "   ";
+    for (int i = 0; i < size; ++i) std::cout << "+" << std::string(numDigits * 3, '-');
+    std::cout << "+" << std::endl;
+
+    for (int i = 0; i < size; ++i)
+    {
+        std::cout << " " << std::string(numDigits - std::to_string(i).length(), ' ') << i << " |";
+        for (int j = 0; j < size; ++j) std::cout << std::string(numDigits - (board[i][j] ? 1 : 0), ' ') << (board[i][j] ? " Q |" : "  |");
+        std::cout << "\n   ";
+
+        for (int j = 0; j < size; ++j) std::cout << "+" << std::string(numDigits * 3, '-');
+        std::cout << "+" << std::endl;
     }
 
     std::cout << std::endl;
@@ -36,13 +48,13 @@ void solve(int** board, int col, bool* usedRows, bool* usedDiag1, bool* usedDiag
 {
     if (col == size)
     {
-        solutions++;
+        ++solutions;
         printBoard(board, size);
 
         return;
     }
 
-    for (int row = 0; row < size; row++)
+    for (int row = 0; row < size; ++row)
         if (!usedRows[row] && !usedDiag1[row + col] && !usedDiag2[row - col + size - 1])
         {
             board[row][col] = 1;
@@ -118,7 +130,7 @@ int main(int argc, char** argv)
     }
 
     int** board = new int* [size];
-    for (int i = 0; i < size; i++) board[i] = new int[size]();
+    for (int i = 0; i < size; ++i) board[i] = new int[size]();
 
     bool* usedRows = new bool[size]();
     bool* usedDiag1 = new bool[2 * size - 1]();
@@ -132,7 +144,7 @@ int main(int argc, char** argv)
     std::cout << "Solutions found: " << solutions << std::endl;
     std::cout << "Time taken: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms" << std::endl;
 
-    for (int i = 0; i < size; i++) delete[] board[i];
+    for (int i = 0; i < size; ++i) delete[] board[i];
     delete[] board;
     delete[] usedRows;
     delete[] usedDiag1;
