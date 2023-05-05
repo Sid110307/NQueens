@@ -38,6 +38,7 @@ void solve(int** board, int col, bool* usedRows, bool* usedDiag1, bool* usedDiag
     {
         solutions++;
         printBoard(board, size);
+
         return;
     }
 
@@ -91,17 +92,28 @@ int main(int argc, char** argv)
     }
     else while (true)
     {
-        std::cout << "Enter the size of the board (default is 8): ";
-        if (std::cin >> size)
+        std::cout << "Enter the size of the board (enter nothing for 8): ";
+        std::string input;
+        std::getline(std::cin, input);
+
+        if (!input.empty())
         {
-            if (size >= 1) break;
-            else std::cout << "Invalid input. Please enter a positive integer." << std::endl;
+            try
+            {
+                size = std::stoi(input);
+
+                if (size >= 1) break;
+                else std::cerr << "Invalid input. Please enter a positive integer." << std::endl;
+            }
+            catch (const std::exception& e)
+            {
+                std::cerr << "Invalid input. Please enter an integer." << std::endl;
+            }
         }
         else
         {
-            std::cout << "Invalid input. Please enter an integer." << std::endl;
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            size = 8;
+            break;
         }
     }
 
