@@ -61,7 +61,49 @@ void solve(int** board, int col, bool* usedRows, bool* usedDiag1, bool* usedDiag
 int main(int argc, char** argv)
 {
     int size = 8;
-    if (argc > 1) size = atoi(argv[1]);
+
+    if (argc > 1)
+    {
+        try
+        {
+            size = std::stoi(argv[1]);
+            if (size < 1)
+            {
+                std::cerr << "Error: Board size must be a positive integer." << std::endl;
+                return EXIT_FAILURE;
+            }
+        }
+        catch (const std::invalid_argument& e)
+        {
+            std::cerr << "Error: Invalid board size." << std::endl;
+            return EXIT_FAILURE;
+        }
+        catch (const std::out_of_range& e)
+        {
+            std::cerr << "Error: Board size is too large." << std::endl;
+            return EXIT_FAILURE;
+        }
+        catch (...)
+        {
+            std::cerr << "Error: Unknown error." << std::endl;
+            return EXIT_FAILURE;
+        }
+    }
+    else while (true)
+    {
+        std::cout << "Enter the size of the board (default is 8): ";
+        if (std::cin >> size)
+        {
+            if (size >= 1) break;
+            else std::cout << "Invalid input. Please enter a positive integer." << std::endl;
+        }
+        else
+        {
+            std::cout << "Invalid input. Please enter an integer." << std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
 
     int** board = new int* [size];
     for (int i = 0; i < size; i++) board[i] = new int[size]();
