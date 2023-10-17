@@ -9,7 +9,7 @@ queens: main.cpp
 	mkdir -p $(EXECUTABLE_DIR)
 	$(CC) $(CPPFLAGS) -o $(EXECUTABLE_DIR)/$@ $^
 
-	echo "Compiled at $(EXECUTABLE_DIR)/$@."
+	echo "Compiled to $(EXECUTABLE_DIR)/$@."
 
 windows: main.cpp
 	@echo "Select build architecture:"
@@ -32,7 +32,7 @@ windows: main.cpp
 	export CC="$$ARCH-g++"
 	mkdir -p "$(EXECUTABLE_DIR)"; \
 	$$CC ${CPPFLAGS} -o "$(EXECUTABLE_DIR)/queens.exe" main.cpp
-	@echo "Compiled at $(EXECUTABLE_DIR)/queens.exe."
+	@echo "Compiled to $(EXECUTABLE_DIR)/queens.exe."
 
 clean:
 	rm -rf $(EXECUTABLE_DIR)
