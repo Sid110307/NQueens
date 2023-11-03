@@ -1,6 +1,6 @@
 export CC=clang++
 export EXECUTABLE_DIR=bin
-export CPPFLAGS=-std=c++11 -Wall -Wextra
+export CPPFLAGS=-std=c++11 -g -Wall -Wextra
 
 .PHONY: all
 all: clean queens
@@ -12,11 +12,11 @@ queens: main.cpp
 	echo "Compiled to $(EXECUTABLE_DIR)/$@."
 
 windows: main.cpp
-	@echo "Select build architecture:"
-	@echo "1. x86 (32-bit)"
-	@echo "2. x64 (64-bit)"
-	@echo
-	@while true; do \
+	echo "Select build architecture:"
+	echo "1. x86 (32-bit)"
+	echo "2. x64 (64-bit)"
+	echo
+	while true; do \
 		read -p "Enter your choice: " choice; \
 		if [ "$$choice" -eq 1 ]; then \
 			export ARCH="i686-w64-mingw32"; \
@@ -32,7 +32,7 @@ windows: main.cpp
 	export CC="$$ARCH-g++"
 	mkdir -p "$(EXECUTABLE_DIR)"; \
 	$$CC ${CPPFLAGS} -o "$(EXECUTABLE_DIR)/queens.exe" main.cpp
-	@echo "Compiled to $(EXECUTABLE_DIR)/queens.exe."
+	echo "Compiled to $(EXECUTABLE_DIR)/queens.exe."
 
 clean:
 	rm -rf $(EXECUTABLE_DIR)
